@@ -26,6 +26,11 @@ public abstract class Entity {
     public abstract void update();
     public abstract void render(Graphics2D g);
 
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public String getName() { return name; }
 
     public float getX() { return x; }

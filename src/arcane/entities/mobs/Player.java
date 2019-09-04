@@ -52,6 +52,18 @@ public class Player extends Mob {
             move(-.5f, 0);
         else if(Input.isKeyPressed(KeyEvent.VK_RIGHT))
             move(.5f, 0);
+
+        if(x < 0)
+            x = 0;
+
+        if(y < 0)
+            y = 0;
+
+        if(x + getWidth() >= Handler.getWidth())
+            x = Handler.getWidth() - getWidth();
+
+        if(y + getHeight() >= Handler.getHeight())
+            y = Handler.getHeight() - getHeight();
     }
 
     @Override

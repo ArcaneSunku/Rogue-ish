@@ -6,14 +6,16 @@ import arcane.tiles.Grass;
 import arcane.tiles.Tile;
 import arcane.tiles.Tree;
 import arcane.utils.Handler;
+import arcane.utils.Input;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class TestWorld extends World {
 
     public TestWorld() {
-        super(100, 100);
+        super(50, 50);
 
         Random rand = new Random();
 
@@ -23,7 +25,7 @@ public class TestWorld extends World {
                 Tile t;
                 int temp = rand.nextInt(35) + 1;
 
-                if (temp >= 32) {
+                if (temp >= 20) {
                     t = new Tree();
                 } else {
                     t = new Grass();
@@ -34,11 +36,23 @@ public class TestWorld extends World {
             }
         }
 
-        addEntity(new Player());
+        addEntity(new Player(), 0, 0);
     }
 
     @Override
     public void update() {
+        if(Input.isKeyPressed(KeyEvent.VK_W)) {
+            move(0f, -2.0f);
+        } else if(Input.isKeyPressed(KeyEvent.VK_S)) {
+            move(0f, 2.0f);
+        }
+
+        if(Input.isKeyPressed(KeyEvent.VK_A)) {
+            move(-2.0f, 0f);
+        } else if(Input.isKeyPressed(KeyEvent.VK_D)) {
+            move(2.0f, 0f);
+        }
+
         for(int i = 0; i < entities.size(); i++) {
             if(entities.get(i).isDead()) {
                 removeEntity(entities.get(i));

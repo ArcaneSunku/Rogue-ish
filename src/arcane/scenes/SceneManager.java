@@ -7,7 +7,6 @@ import java.util.Map;
 public class SceneManager {
 
     private Map<String, Scene> mScenes;
-
     private static String mCurrentScene;
 
     public SceneManager() {
