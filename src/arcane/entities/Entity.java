@@ -8,8 +8,9 @@ public abstract class Entity {
 
     protected String name;
     protected float x, y;
+    protected float speed = 1.0f;
     protected int width = 16, height = 16, direction = 0;
-    protected boolean dead = false;
+    protected boolean dead = false, moving = false;
 
 
     public Entity(String name) {
@@ -26,6 +27,16 @@ public abstract class Entity {
     public abstract void update();
     public abstract void render(Graphics2D g);
 
+    public void move(float xDir, float yDir) {
+        if(xDir != 0 && yDir != 0) {
+            move(xDir, 0);
+            move(0, yDir);
+        }
+
+        x += xDir;
+        y += yDir;
+    }
+
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
@@ -36,9 +47,12 @@ public abstract class Entity {
     public float getX() { return x; }
     public float getY() { return y; }
 
+    public float getSpeed() { return speed; }
+
     public int getWidth() { return width * Handler.getScale(); }
     public int getHeight() { return height * Handler.getScale(); }
 
     public boolean isDead() { return dead; }
+    public boolean isMoving() { return moving; }
 
 }

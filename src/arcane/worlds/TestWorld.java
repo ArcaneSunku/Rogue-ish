@@ -17,7 +17,7 @@ public class TestWorld extends World {
     public TestWorld() {
         super(50, 50);
 
-        Random rand = new Random();
+        Random rand = new Random(System.currentTimeMillis());
 
         for(int i = 0; i < height; i++) {
             rand.setSeed(System.nanoTime());
@@ -42,15 +42,15 @@ public class TestWorld extends World {
     @Override
     public void update() {
         if(Input.isKeyPressed(KeyEvent.VK_W)) {
-            move(0f, -2.0f);
+            scroll(0f, -2.0f);
         } else if(Input.isKeyPressed(KeyEvent.VK_S)) {
-            move(0f, 2.0f);
+            scroll(0f, 2.0f);
         }
 
         if(Input.isKeyPressed(KeyEvent.VK_A)) {
-            move(-2.0f, 0f);
+            scroll(-2.0f, 0f);
         } else if(Input.isKeyPressed(KeyEvent.VK_D)) {
-            move(2.0f, 0f);
+            scroll(2.0f, 0f);
         }
 
         for(int i = 0; i < entities.size(); i++) {

@@ -15,6 +15,7 @@ public abstract class World {
 
     protected int width, height;
     protected float xOffset = 0, yOffset = 0;
+    private boolean xScroll = true, yScroll = true;
 
     public World(int width, int height) {
         this(new Tile[width][height], new ArrayList<>());
@@ -31,19 +32,46 @@ public abstract class World {
     public abstract void update();
     public abstract void render(Graphics2D g);
 
-    public void move(float xDir, float yDir) {
+    public void scroll(float xDir, float yDir) {
         xOffset -= (xDir * 1.0f);
         yOffset -= (yDir * 1.0f);
 
-        if(xOffset > 0)
-            xOffset = 0;
-        if(yOffset > 0)
-            yOffset = 0;
+        xScroll = true;
+        yScroll = true;
 
-        if(xOffset + (width * tiles[0][0].getWidth()) <= Handler.getWidth())
+        if(xOffset > 0) {
+            xOffset = 0;
+            xScroll = false;
+        }
+
+        if(yOffset > 0) {
+            yOffset = 0;
+            yScroll = false;
+        }
+
+        if(xOffset + (width * tiles[0][0].getWidth()) <= Handler.getWidth()) {
             xOffset = Handler.getWidth() - (width * tiles[0][0].getWidth());
-        if(yOffset + (height * tiles[0][0].getHeight()) <= Handler.getHeight())
+            xScroll = false;
+        }
+
+        if(yOffset + (height * tiles[0][0].getHeight()) <= Handler.getHeight()) {
             yOffset = Handler.getHeight() - (height * tiles[0][0].getHeight());
+            yScroll = false;
+        }
+
+        for(Entity e : entities)  {
+            if(!e.isMoving()) {
+                if(!xScroll && !yScroll)
+                    return;
+                else if(xScroll && yScroll)
+                    e.move(-(xDir * 1.0f), -(yDir * 1.0f));
+
+                if(!xScroll)
+                    e.move(0, -(yDir * 1.0f));
+                else if(!yScroll)
+                    e.move(-(xDir * 1.0f), 0);
+            }
+        }
 
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < width; j++) {
@@ -82,6 +110,10 @@ public abstract class World {
 
     public Tile getTile(int x, int y) {
         return tiles[x][y];
+    }
+
+    public Tile getTileRaw(float x, float y) {
+        return getTile((int) (xOffset - (getTile(0, 0).getWidth() * x)), (int) (yOffset - (getTile(0, 0).getHeight() * y)));
     }
 
     public float xOffset() { return xOffset; }

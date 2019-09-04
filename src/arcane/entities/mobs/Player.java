@@ -23,6 +23,7 @@ public class Player extends Mob {
         int id = rand.nextInt(100) + 1;
 
         name = "Player - " + id;
+        speed = 3.0f;
         System.out.println(name);
     }
 
@@ -43,15 +44,25 @@ public class Player extends Mob {
                 break;
         }
 
-        if(Input.isKeyPressed(KeyEvent.VK_UP))
-            move(0, -.5f);
-        else if(Input.isKeyPressed(KeyEvent.VK_DOWN))
-            move(0, .5f);
-
-        if(Input.isKeyPressed(KeyEvent.VK_LEFT))
-            move(-.5f, 0);
-        else if(Input.isKeyPressed(KeyEvent.VK_RIGHT))
-            move(.5f, 0);
+        if(Input.isKeyPressed(KeyEvent.VK_UP)) {
+            moving = true;
+            move(0, -.5f * speed);
+            direction = 3;
+        } else if(Input.isKeyPressed(KeyEvent.VK_DOWN)) {
+            moving = true;
+            move(0, .5f * speed);
+            direction = 0;
+        } else if(Input.isKeyPressed(KeyEvent.VK_LEFT)) {
+            moving = true;
+            move(-.5f * speed, 0);
+            direction = 1;
+        } else if(Input.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            moving = true;
+            move(.5f * speed, 0);
+            direction = 2;
+        } else {
+            moving = false;
+        }
 
         if(x < 0)
             x = 0;
