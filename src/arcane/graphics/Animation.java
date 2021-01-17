@@ -8,7 +8,7 @@ public class Animation {
     private BufferedImage[][] multiRow;
 
     private double time = 0;
-    private boolean multi, playing = false;
+    private boolean multi = false, playing = false;
 
     private int rows, columns;
     private int frames, step;

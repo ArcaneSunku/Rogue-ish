@@ -11,21 +11,19 @@ import arcane.utils.Input;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TestWorld extends World {
 
     public TestWorld() {
         super(50, 50);
 
-        Random rand = new Random(System.currentTimeMillis());
-
         for(int i = 0; i < height; i++) {
-            rand.setSeed(System.nanoTime());
             for(int j = 0; j < width; j++) {
                 Tile t;
-                int temp = rand.nextInt(35) + 1;
+                float temp = (ThreadLocalRandom.current().nextInt(100) + 1) / 100f;
 
-                if (temp >= 20) {
+                if (temp >= .95f) {
                     t = new Tree();
                 } else {
                     t = new Grass();
@@ -53,13 +51,13 @@ public class TestWorld extends World {
             scroll(2.0f, 0f);
         }
 
-        for(int i = 0; i < entities.size(); i++) {
-            if(entities.get(i).isDead()) {
-                removeEntity(entities.get(i));
+        for (Entity entity : entities) {
+            if (entity.isDead()) {
+                removeEntity(entity);
                 return;
             }
 
-            entities.get(i).update();
+            entity.update();
         }
     }
 

@@ -6,10 +6,16 @@ import java.awt.*;
 
 public abstract class Entity {
 
+    protected enum Direction {
+        DOWN, LEFT, RIGHT, UP
+    }
+
+    protected Direction direction;
     protected String name;
+
     protected float x, y;
     protected float speed = 1.0f;
-    protected int width = 16, height = 16, direction = 0;
+    protected int width = 16, height = 16;
     protected boolean dead = false, moving = false;
 
 
@@ -22,6 +28,8 @@ public abstract class Entity {
 
         this.x = x;
         this.y = y;
+
+        direction = Direction.DOWN;
     }
 
     public abstract void update();

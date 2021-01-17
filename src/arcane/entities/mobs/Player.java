@@ -5,7 +5,7 @@ import arcane.utils.Input;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player extends Mob {
 
@@ -19,17 +19,15 @@ public class Player extends Mob {
 
     public Player(float x, float y) {
         super("Player", x, y);
-        Random rand = new Random(System.nanoTime());
-        int id = rand.nextInt(100) + 1;
+        int id = ThreadLocalRandom.current().nextInt(100) + 1;
 
-        name = "Player - " + id;
+        name = String.format("Player - %d", id);
         speed = 3.0f;
-        System.out.println(name);
     }
 
     @Override
     public void update() {
-        switch (direction) {
+        switch (direction.ordinal()) {
             case 0:
                 facing = "v";
                 break;
@@ -47,19 +45,19 @@ public class Player extends Mob {
         if(Input.isKeyPressed(KeyEvent.VK_UP)) {
             moving = true;
             move(0, -.5f * speed);
-            direction = 3;
+            direction = Direction.UP;
         } else if(Input.isKeyPressed(KeyEvent.VK_DOWN)) {
             moving = true;
             move(0, .5f * speed);
-            direction = 0;
+            direction = Direction.DOWN;
         } else if(Input.isKeyPressed(KeyEvent.VK_LEFT)) {
             moving = true;
             move(-.5f * speed, 0);
-            direction = 1;
+            direction = Direction.LEFT;
         } else if(Input.isKeyPressed(KeyEvent.VK_RIGHT)) {
             moving = true;
             move(.5f * speed, 0);
-            direction = 2;
+            direction = Direction.RIGHT;
         } else {
             moving = false;
         }
@@ -97,7 +95,8 @@ public class Player extends Mob {
         if(facingHeight == 0)
             facingHeight = g.getFontMetrics(g.getFont()).getHeight();
 
-        facingWidth = g.getFontMetrics(g.getFont()).stringWidth(facing);
+        if(facingWidth == 0)
+            facingWidth = g.getFontMetrics(g.getFont()).stringWidth(facing);
 
         g.drawString(facing, (x + getWidth() / 2f) - (facingWidth / 2f), (y + getHeight()) + (facingHeight / 2f));
     }

@@ -15,6 +15,8 @@ public abstract class World {
 
     protected int width, height;
     protected float xOffset = 0, yOffset = 0;
+    protected float scrollSpeed = 1.0f;
+
     private boolean xScroll = true, yScroll = true;
 
     public World(int width, int height) {
@@ -33,8 +35,8 @@ public abstract class World {
     public abstract void render(Graphics2D g);
 
     public void scroll(float xDir, float yDir) {
-        xOffset -= (xDir * 1.0f);
-        yOffset -= (yDir * 1.0f);
+        xOffset -= (xDir * scrollSpeed);
+        yOffset -= (yDir * scrollSpeed);
 
         xScroll = true;
         yScroll = true;
@@ -64,12 +66,12 @@ public abstract class World {
                 if(!xScroll && !yScroll)
                     return;
                 else if(xScroll && yScroll)
-                    e.move(-(xDir * 1.0f), -(yDir * 1.0f));
+                    e.move(-(xDir * scrollSpeed), -(yDir * scrollSpeed));
 
                 if(!xScroll)
-                    e.move(0, -(yDir * 1.0f));
+                    e.move(0, -(yDir * scrollSpeed));
                 else if(!yScroll)
-                    e.move(-(xDir * 1.0f), 0);
+                    e.move(-(xDir * scrollSpeed), 0);
             }
         }
 
